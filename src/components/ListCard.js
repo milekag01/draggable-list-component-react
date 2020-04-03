@@ -22,6 +22,7 @@ import PeopleCardFooter from '@mui-treasury/components/cardFooter/people';
 const useStyles = makeStyles(theme => ({
     root: {
         maxWidth: 300,
+        marginBottom: 10
     },
     avatar: {
         backgroundColor: red[500],
@@ -30,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 
 //---------------------------
 
-const ListCard = () => {
+const ListCard = ({card}) => {
     const classes = useStyles();
     return (
         <React.Fragment>
@@ -38,7 +39,7 @@ const ListCard = () => {
                 <CardHeader
                     avatar={
                     <Avatar aria-label="recipe" className={classes.avatar}>
-                        M
+                        {card.author[0]}
                     </Avatar>
                     }
                     action={
@@ -46,16 +47,13 @@ const ListCard = () => {
                         <MoreVertIcon />
                     </IconButton>
                     }
-                    title="Update the Card component"
-                    subheader="March 23, 2020"
+                    title={card.title}
+                    subheader={card.date}
                 />
 
                 <CardContent>
                     <Typography variant="body2" color="textSecondary" component="p">
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Odit voluptatibus culpa possimus numquam voluptates error 
-                    aspernatur temporibus alias doloremque mollitia, fuga iusto ducimus, 
-                    id deleniti soluta ratione, molestiae eaque voluptatem?.
+                        {card.description}
                     </Typography>
                 </CardContent>
                 
