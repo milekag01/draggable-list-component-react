@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 // import Icon from '@material-ui/icons';
 import { Button ,TextareaAutosize, Card } from '@material-ui/core';
+import {connect} from 'react-redux';
+import {addList, addCard} from '../actions/index';
 
 class ActionButton extends Component {
 
@@ -30,9 +32,38 @@ class ActionButton extends Component {
 
     handleDescChange = (e) => {
         this.setState({
-            description: e.target.description
+            description: e.target.value
         });
     }
+
+    handleAddList = () => {
+        const {dispatch} = this.props;
+        const {title} = this.state;
+
+        if(title) {
+            this.setState({
+                title: ""
+            });
+
+            dispatch(addList(title));
+        }
+        return;
+    }
+
+    handleAddCard = () => {
+        const {dispatch,listID} = this.props;
+        const {title,description} = this.state;
+
+        if(title) {
+            this.setState({
+                title: "",
+                description: ""
+            });
+            dispatch(addCard(listID, title, description));
+        }
+        return;
+    }
+
 
     renderAddButton = () => {
         const {list} = this.props;
@@ -114,6 +145,7 @@ class ActionButton extends Component {
 
                 </div>
                 <Button
+                    onClick={list ? this.handleAddList : this.handleAddCard}
                     varient="contained"
                     style={{
                         color: "white",
@@ -163,4 +195,4 @@ const styles = {
     }
 }
 
-export default ActionButton;
+export default connect()(ActionButton);

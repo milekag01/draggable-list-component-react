@@ -1,3 +1,8 @@
+import {CONSTANTS} from '../actions/index';
+
+var listID = 2;
+var cardID = 3;
+
 const initialState = [
     { 
         title: "Last Update",
@@ -96,6 +101,43 @@ const initialState = [
 
 const listsReducer = (state = initialState, action) => {
     switch(action.type) {
+
+        case CONSTANTS.ADD_LIST:
+            const newList = {
+                title: action.payload,
+                cards: [],
+                id: listID
+            };
+            // eslint-disable-next-line no-const-assign
+            listID+=1;
+            return [...state,newList];
+
+        case CONSTANTS.ADD_CARD:
+            var options = {year: 'numeric', month: 'long', day: 'numeric' };
+            var today  = new Date();
+
+            const newCard = {
+                title: action.payload.title,
+                description: action.payload.description,
+                id: cardID,
+                author: 'Milek',
+                date: today.toLocaleDateString("en-US", options),
+                assigned_to: []
+            };
+            cardID+=1;
+
+            const newState = state.map((list) => {
+                if(list.id === action.payload.listID) {
+                    return {...list,
+                        cards: [...list.cards, newCard]
+                    }
+                } else {
+                    return list;
+                }
+            });
+
+            return newState;
+
         default: 
             return state;
     }
